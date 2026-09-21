@@ -27,9 +27,5 @@ features:
 | написать первый UI-пак | [Быстрый старт](/ru/fv-ui/quick-start) |
 | узнать, что умеет Servo, до выбора фреймворка | [Матрица поддержки Servo](/ru/fv-ui/servo) |
 | отдать пакам данные своего мода | [Моды-аддоны](/ru/fv-ui/addons-java) |
-| сделать HUD-пак | [The HUD surface](/en/fv-hud/hud-surface) · EN |
+| сделать HUD-пак | [Экран HUD](/ru/fv-hud/hud-surface) |
 | переехать с FancyMenu | [Если вы с FancyMenu](/ru/fv-menu/fancymenu-map) |
-
-::: tip Про язык
-Обзорные страницы и разделы FV-UI и FV-Menu переведены целиком. Осталась одна большая глава про экран HUD; пока перевода нет, пункт меню помечен «EN» и ведёт на английскую страницу.
-:::

@@ -114,7 +114,7 @@ xvfb-run -a -s "-screen 0 1920x1080x24" env -u WAYLAND_DISPLAY \
 | `-PglvndPatch=0` или `1` | env `__GLVND_DISALLOW_PATCHING` | не задано | принудительно задаёт переменную NVIDIA для WebGL на запуск |
 | `-PfixedHeap=2G` | `-Xms`/`-Xmx` плюс `AlwaysPreTouch` | не задано | фиксирует кучу, чтобы разница RSS показывала нативную память |
 
-`:hud:runClient` принимает те же переключатели плюс шесть своих, они перечислены в главе [Экран HUD](/en/fv-hud/hud-surface).
+`:hud:runClient` принимает те же переключатели плюс шесть своих, они перечислены в главе [Экран HUD](/ru/fv-hud/hud-surface).
 
 `-PdevOut` и `-PdevPack` принимают абсолютный путь или путь от корня репозитория, а не от `mods/`:
 сам клиент работает в `mods/menu/run`. `-PdevPack=packs/example` — правильно,

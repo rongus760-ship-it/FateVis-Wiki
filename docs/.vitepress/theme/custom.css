@@ -360,3 +360,52 @@ body::before {
   .is-critical .hearts-row svg { animation: none; }
   .hearts-edge, .theme-stage { transition: none; }
 }
+
+/* ---------------- "open in full": the button by a table or a diagram, and the dialog ---------------- */
+.fv-zoom-bar { display: flex; justify-content: flex-end; position: relative; z-index: 2; }
+.fv-zoom-bar.is-table { margin: 20px 0 6px; }
+.vp-doc .fv-zoom-bar.is-table + table { margin-top: 0; }
+.fv-zoom-bar.is-diagram { height: 0; margin-top: 24px; }
+.vp-doc .fv-zoom-bar.is-diagram + .mermaid { margin-top: 0; }
+.fv-zoom-bar.is-diagram .fv-zoom-btn { position: absolute; top: 8px; right: 8px; }
+.fv-zoom-btn {
+  display: inline-flex; align-items: center; gap: 7px; min-height: 30px; padding: 0 10px; cursor: pointer;
+  font-family: var(--fv-font-head); font-size: 12px; word-spacing: -0.2em; line-height: 1;
+  color: var(--fv-text-3); background: rgba(21, 23, 32, 0.7); border: 1px solid var(--fv-border); border-radius: 6px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.fv-zoom-btn:hover, .fv-zoom-btn:focus-visible { color: var(--fv-lavender); border-color: var(--fv-purple); }
+.fv-zoom-btn:focus-visible, .fv-zoom-bar-top button:focus-visible { outline: 2px solid var(--fv-lavender); outline-offset: 2px; }
+.fv-zoom-bar.is-diagram .fv-zoom-btn span { display: none; }            /* icon only, in the corner of the panel */
+.fv-zoom-bar.is-diagram .fv-zoom-btn { padding: 0 8px; }
+@media (pointer: coarse) { .fv-zoom-btn { min-height: 40px; min-width: 40px; justify-content: center; } }
+
+.fv-zoom {
+  position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  background: rgba(15, 16, 23, 0.975);
+}
+.fv-zoom-bar-top {
+  flex: none; display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  font-family: var(--fv-font-head); font-size: 13px; word-spacing: -0.2em; color: var(--fv-text-2);
+  background: rgba(26, 27, 38, 0.95); border-bottom: 1.2px solid var(--fv-border);
+}
+.fv-zoom-title { flex: none; color: var(--fv-purple); font-weight: 700; }
+.fv-zoom-hint { flex: 1; min-width: 0; font-size: 12px; color: var(--fv-text-3); overflow: hidden; white-space: nowrap; text-overflow: clip; }
+@media (max-width: 860px) { .fv-zoom-hint { visibility: hidden; } .fv-zoom-bar-top { gap: 6px; padding: 8px 10px; } .fv-zoom-bar-top button.is-text { padding: 0 8px; } }
+.fv-zoom-bar-top output { flex: none; min-width: 5ch; text-align: center; font-size: 12.5px; color: var(--fv-text); }
+.fv-zoom-bar-top button {
+  flex: none; white-space: nowrap; min-width: 40px; height: 40px; padding: 0 10px; cursor: pointer; font: inherit; font-size: 16px; line-height: 1;
+  color: var(--fv-blue); background: var(--fv-navy); border: 1px solid rgba(157, 192, 255, 0.25); border-radius: 6px;
+}
+.fv-zoom-bar-top button.is-text { font-size: 12.5px; }
+.fv-zoom-bar-top button:hover { border-color: var(--fv-blue); }
+.fv-zoom-bar-top button.is-close { color: #16161e; background: var(--fv-lavender); border-color: transparent; }
+.fv-zoom-stage { flex: 1; position: relative; overflow: hidden; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+.fv-zoom-stage:active { cursor: grabbing; }
+.fv-zoom-content { position: absolute; left: 0; top: 0; width: max-content; transform-origin: 0 0; will-change: transform; }
+.fv-zoom-content.vp-doc table { display: table; margin: 0; overflow: visible; width: max-content; max-width: 1400px; background: var(--fv-bg); border: 1.2px solid var(--fv-border); }
+.fv-zoom-content.vp-doc td { max-width: 560px; }
+.fv-zoom-content.vp-doc .mermaid { margin: 0; padding: 24px; overflow: visible; background: var(--fv-bg); }
+.fv-zoom-content.vp-doc .mermaid svg { min-width: 0; max-width: none; display: block; }
+@media (max-width: 480px) { .fv-zoom-title, .fv-zoom-hint { display: none; } .fv-zoom-bar-top { justify-content: flex-end; } }

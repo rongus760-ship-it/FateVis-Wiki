@@ -113,6 +113,8 @@ A HUD that answers the game: hearts that crack at low health, a damage direction
 screen edges, the boss as a puppet beside its bar, a particle burst on a level up. Every one of them
 is a toggle, not a second pack, and with the toggle off the page is byte for byte the M5 page.
 
+<DemoHearts />
+
 ### The three data topics
 
 `hud.damage` is one payload per hit and nothing between hits. `seq` is a counter and the only field

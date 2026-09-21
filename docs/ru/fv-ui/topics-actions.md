@@ -43,7 +43,7 @@ flowchart LR
 | `gui.scale` | core | tick | `{guiScale, auto, cssScale, width, height}` |
 | `dev.perf` | core | push | `{evals, bytes, keys, flushes, calls, blocked, pending}`, раз в секунду |
 | `res.epoch` | core | push | целое, увеличивается при перезагрузке ресурсов |
-| `font.epoch` | core | push | целое, увеличивается при перезагрузке ресурсов, см. [Экран HUD](/en/fv-hud/hud-surface) |
+| `font.epoch` | core | push | целое, увеличивается при перезагрузке ресурсов, см. [Экран HUD](/ru/fv-hud/hud-surface) |
 | `pack` | core | push | активный пак, форма ниже |
 | `packs` | core | push | список всех найденных паков, исправных и сломанных |
 | `options.prefs` | fvmenu | tick | `{blur, speed, splash, contrast}` |
@@ -58,24 +58,24 @@ flowchart LR
 | `server.address` | fvmenu | tick | `{address, name, lan, singleplayer}`, null в одиночной игре |
 | `mods.loaded` | fvmenu | tick | отсортированный список id установленных модов |
 | `skin.widgets` | fvmenu | push | на каждый кадр рендера экрана со скином, со сравнением |
-| `hud.player` | fvhud | tick | здоровье, еда, броня, воздух, опыт и имя предмета в руке, [Экран HUD](/en/fv-hud/hud-surface) |
+| `hud.player` | fvhud | tick | здоровье, еда, броня, воздух, опыт и имя предмета в руке, [Экран HUD](/ru/fv-hud/hud-surface) |
 | `hud.hotbar` | fvhud | tick | девять слотов, вторая рука и выбранный индекс |
 | `hud.effects` | fvhud | tick | активные эффекты с абсолютным тиком окончания |
 | `hud.title` | fvhud | tick | заголовок, подзаголовок и action bar с их дедлайнами |
-| `hud.bossbars` | fvhud | tick | по записи на видимый боссбар плюс сопоставленная сущность, [Экран HUD](/en/fv-hud/hud-surface) |
-| `hud.damage` | fvhud | tick | одно сообщение на удар: направление, дедлайн нарастания, величина и тип урона, [Экран HUD](/en/fv-hud/hud-surface) |
-| `hud.status` | fvhud | tick | беда, в которой находится игрок, по порогам самой ванили, [Экран HUD](/en/fv-hud/hud-surface) |
+| `hud.bossbars` | fvhud | tick | по записи на видимый боссбар плюс сопоставленная сущность, [Экран HUD](/ru/fv-hud/hud-surface) |
+| `hud.damage` | fvhud | tick | одно сообщение на удар: направление, дедлайн нарастания, величина и тип урона, [Экран HUD](/ru/fv-hud/hud-surface) |
+| `hud.status` | fvhud | tick | беда, в которой находится игрок, по порогам самой ванили, [Экран HUD](/ru/fv-hud/hud-surface) |
 | `hud.reactive` | fvhud | tick | блок `reactive` из `fvui/hud.json`: какие эффекты запускает страница HUD |
 | `hud.scoreboard` | fvhud | tick | цель сайдбара или null |
-| `hud.tablist` | fvhud | tick | весь список игроков с колонками, головами и пингом, [Экран HUD](/en/fv-hud/hud-surface) |
+| `hud.tablist` | fvhud | tick | весь список игроков с колонками, головами и пингом, [Экран HUD](/ru/fv-hud/hud-surface) |
 | `hud.chat` | fvhud | tick | кольцо истории; живые строки — это событие `hud.chat.line` |
 | `hud.chat.opts` | fvhud | tick | ванильные настройки чата, все числа уже вычислены |
-| `chat.suggest` | fvhud | push | окно подсказок команд, пока открыт экран чата, [Экран HUD](/en/fv-hud/hud-surface) |
+| `chat.suggest` | fvhud | push | окно подсказок команд, пока открыт экран чата, [Экран HUD](/ru/fv-hud/hud-surface) |
 | `hud.tooltip` | fvhud | push | подсказка, которую нарисовала бы игра, уже спозиционированная |
 | `hud.toasts` | fvhud | tick | живые тосты, в **миллисекундах настенных часов** |
 | `screen.death` | fvmenu | tick | причина, счёт и градиент экрана смерти |
 | `hud.layers` | fvhud | tick | каждый GUI-слой, замеченный при рендере, с его правилом |
-| `hud.container` | fvhud | push | открытый экран контейнера: прямоугольник картинки, слоты, подписи, кнопки, [Экран HUD](/en/fv-hud/hud-surface) |
+| `hud.container` | fvhud | push | открытый экран контейнера: прямоугольник картинки, слоты, подписи, кнопки, [Экран HUD](/ru/fv-hud/hud-surface) |
 | `media.available` | core | push | `{native, probed, types, ok}`, играет ли эта сборка медиа вообще |
 | `media.state` | core | push | по каждому элементу `{playing, paused, position, duration, volume, src, frame}` |
 | `item.epoch` | core | push | увеличивается при перезагрузке ресурсов; запросите `item.icons` заново за свежими адресами |
@@ -157,7 +157,7 @@ played>`. У повреждённого сохранения или сохран
 ключ — хеш байтов иконки, так что два сервера с одинаковой иконкой делят один файл; до M15 это был
 адрес `data:`, и оба годятся как источник для `img`. `accent` и `accent2` — `#rrggbb`,
 квантованные из этой иконки один раз на каждый отдельный ключ; их нет, когда у сервера нет иконки.
-`motdHtml` — строка `ComponentHtml` из главы [Экран HUD](/en/fv-hud/hud-surface), для DOM-списка; `motdRuns` — это
+`motdHtml` — строка `ComponentHtml` из главы [Экран HUD](/ru/fv-hud/hud-surface), для DOM-списка; `motdRuns` — это
 `[[["text", "gold"], ["text", null]], ...]`, не больше двух исходных строк из пар `(text, colour)` для
 рисования на canvas; цвет — имя для именованного и `#rrggbb` для hex.
 
@@ -413,7 +413,7 @@ Id для `sound.play`, разрешённые всегда: `minecraft:ui.butto
 
 Страница никогда не получает URL, команду или вставку, стоящие за фрагментом чата. Она получает
 `token` и индекс в таблице, которую Java построила из компонента, **полученного самой игрой**, —
-именно это несёт атрибут `data-k="<token>:<n>"` из главы [Экран HUD](/en/fv-hud/hud-surface). Поэтому страница пака не может
+именно это несёт атрибут `data-k="<token>:<n>"` из главы [Экран HUD](/ru/fv-hud/hud-surface). Поэтому страница пака не может
 сфабриковать клик `run_command`, которого ни один сервер не присылал.
 
 Ещё два барьера у `text.click`: должен быть открыт экран, а указатель в вызове должен быть внутри
@@ -434,7 +434,7 @@ Id для `sound.play`, разрешённые всегда: `minecraft:ui.butto
 миллисекундах настенных часов `Util.getMillis()`, потому что тост продолжает идти, пока игра на паузе.
 Он несёт собственный `now`, так что страница никогда не смешивает двое часов.
 
-`font.need`: [Экран HUD](/en/fv-hud/hud-surface), раздел про чат и шрифт.
+`font.need`: [Экран HUD](/ru/fv-hud/hud-surface), раздел про чат и шрифт.
 
 `skin.act` и `loading.act` — самостоятельные методы моста, а не id действий, см. [Экраны](/ru/fv-menu/surfaces) и
 [Страницу загрузки](/ru/fv-menu/loading); то же относится к `menu.rects`, пакету островов вида меню.
