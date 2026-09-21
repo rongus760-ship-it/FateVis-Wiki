@@ -96,7 +96,7 @@ It runs nothing against a remote and takes `--dry-run`. Steps, artifacts and wha
 first: `docs/release-process.md`. What changed per version: `CHANGELOG.md`.
 
 Versions are one number, `mod_version` in `mods/gradle.properties`. `node tools/version.mjs --set
-&lt;x.y.z>` propagates it to the SDK packages, the manifest `fvui` ranges, the packs that ship inside
+<x.y.z>` propagates it to the SDK packages, the manifest `fvui` ranges, the packs that ship inside
 the jars and the version notes here, and `./gradlew checkVersion` fails when any of them drifts.
 
 ## Natives at runtime

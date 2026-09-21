@@ -13,6 +13,18 @@ fvui.on('mode', (e) => {
 });
 ```
 
+```mermaid
+stateDiagram-v2
+  [*] --> loading: launch
+  loading --> title: reload done, outro played
+  title --> skin: Options, Key Binds, Create World ...
+  skin --> skin: a sub screen, gen + 1
+  skin --> title: back
+  title --> loading: world load or server join
+  loading --> skin: in game, pause and its Options
+  skin --> loading: disconnect, change dimension
+```
+
 | mode | surface | `data` |
 |---|---|---|
 | `loading` | `loading` | null, everything is in the `loading.*` topics |
@@ -66,6 +78,17 @@ layouts and reports it in the screen info:
 | `flow` | Options, pause, death and out of memory, where the page understands every part | the page |
 | `mirror` | every other skinned screen | vanilla |
 | `loading` | the four screen phases of the loading stream, [Loading page](/en/fv-menu/loading) | vanilla |
+
+```mermaid
+flowchart TD
+  A["a vanilla or mod screen opens"] --> B{"allowed by fvmenu-skins.json and the manifest skins?"}
+  B -- no --> V["vanilla draws it"]
+  B -- yes --> C{"one of the four loading screens?"}
+  C -- yes --> L["layout loading: the page owns the whole frame, vanilla keeps the logic"]
+  C -- no --> D{"does the page understand every part? Options, pause, death, out of memory"}
+  D -- yes --> F["layout flow: the page lays rows out and answers with skin.act"]
+  D -- no --> M["layout mirror: widgets at the vanilla bounds, vanilla keeps the pointer"]
+```
 
 In flow the page lays the screen out itself, all list rows are exported and it sends actions back.
 In mirror the page draws widgets at the vanilla bounds and vanilla keeps clicks, focus, sounds,

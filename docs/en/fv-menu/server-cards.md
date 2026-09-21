@@ -150,6 +150,17 @@ favicon and no mockup art is in the repository.
 A card is in one of three states and `cards/flip.ts` is the whole of it - a pure reducer, no clock,
 no GPU, no DOM, so the sequences are a vitest case and the stage only animates what it answers:
 
+```mermaid
+stateDiagram-v2
+  row --> lifted: click or Enter
+  lifted --> back: click, Enter or F
+  back --> lifted: click or F
+  back --> joining: Enter
+  lifted --> row: Escape
+  back --> lifted: Escape
+  joining --> [*]: server.join with the card's index
+```
+
 ```txt
 row  --click/Enter-->  lifted  --click/Enter/F-->  back  --click/F-->  lifted  --Escape-->  row
 ```

@@ -176,8 +176,7 @@ The pack manifest lists the ask ones:
 ## Shipping
 
 The mod jar goes into `mods/` next to fv-ui and fv-menu. The page is a normal UI pack, so it goes
-into `<gamedir>/fvui/packs/<id>/` under a directory named exactly like the manifest `id`. Chapter
-12 has the rest.
+into `<gamedir>/fvui/packs/<id>/` under a directory named exactly like the manifest `id`. [Distribution](/en/fv-ui/distribution) has the rest.
 
 An addon whose page is optional is fine: register the topics and let a pack author use them.
 

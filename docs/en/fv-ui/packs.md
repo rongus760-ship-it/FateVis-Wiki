@@ -83,6 +83,15 @@ One active pack per view, not per surface: the menu is one document that switche
 is in `fvui/`, not in `config/`, which a modpack update overwrites. An unknown, invalid or disabled
 id logs one warn line and the view stays on the default pack.
 
+```mermaid
+flowchart LR
+  S["surface asked for: title, loading, skin or hud"] --> A{"server pack has an entry?"}
+  A -- yes --> SP["server delivered pack"]
+  A -- no --> B{"active pack has an entry?"}
+  B -- yes --> AP["the player's active pack"]
+  B -- no --> DP["shipped pack inside the jar"]
+```
+
 Fallback is entry by entry. A pack declaring only `entries.title` keeps the shipped loading page
 and the shipped screen skins.
 
@@ -189,6 +198,8 @@ real theme.
 :root { --glow: #ffb347; --paper: #f2efe6; --sans: "Geologica", sans-serif; --text: 16px; }
 ```
 
+<DemoTheme />
+
 | token | kind | paints |
 |---|---|---|
 | `--ink` | `R, G, B` | page base, used at many alphas as `rgba(var(--ink), 0.8)` |
@@ -270,6 +281,17 @@ absent in this mode.
 |---|---|
 | F6 | on any screen, re-reads every manifest from disk and loads the current surface again |
 | K | on the shipped title page, the pack picker |
+
+```mermaid
+stateDiagram-v2
+  [*] --> Found: manifest in fvui/packs
+  Found --> Skipped: validation problem, one log line each
+  Found --> Active: picked in packs.json or with K
+  Active --> Active: F6 re-reads the manifest and reloads the surface
+  Active --> Disabled: the page crashed
+  Disabled --> Found: the manifest hash changed
+  Active --> Found: another pack activated
+```
 
 F6 is the author loop: edit a file, press F6, no restart and no second engine. The reload bumps a
 generation that rides the page URL as `&r=<n>`, because file hosts send no cache headers and the

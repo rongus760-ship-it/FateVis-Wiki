@@ -263,7 +263,7 @@ No assignment, no member access outside the roots, no functions of the document'
 longest known topic id; `topic['my.addon.topic'].field` is the explicit form for an id this toolchain
 has not heard of.
 
-Calls: `hour() minute() second() day() month() year() weekday() has(&lt;mod id>) seen(&lt;key>)
+Calls: `hour() minute() second() day() month() year() weekday() has(<mod id>) seen(<key>)
 contains(a, b) starts(a, b) ends(a, b) lower(s) upper(s) len(x) num(x) abs(n) round(n) min(a, b)
 max(a, b)`.
 

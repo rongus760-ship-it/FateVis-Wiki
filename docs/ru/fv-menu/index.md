@@ -21,6 +21,15 @@ fvui.on('mode', (e) => {
 })
 ```
 
+```mermaid
+stateDiagram-v2
+  [*] --> loading: запуск
+  loading --> title
+  title --> skin: Options, Key Binds ...
+  skin --> title: назад
+  title --> loading: загрузка мира, вход на сервер
+```
+
 <figure>
   <img src="/shots/title.webp" alt="Штатный титульный экран">
   <figcaption><code>title</code>: штатный пак. «Продолжить», миры и серверы — это темы, а не выскобленные виджеты.</figcaption>
@@ -36,7 +45,7 @@ fvui.on('mode', (e) => {
   <figcaption><code>loading</code>: с установленным <code>fv-earlywindow</code> она на экране с первой секунды запуска.</figcaption>
 </figure>
 
-Справка: [Title, skins, flow and mirror](/en/fv-menu/surfaces) и [Loading page](/en/fv-menu/loading) (EN).
+Справка: [Титул, скины, flow и mirror](/ru/fv-menu/surfaces) и [Страница загрузки](/ru/fv-menu/loading).
 
 ## Темы
 
@@ -45,11 +54,22 @@ fvui.on('mode', (e) => {
 штатные экраны, а в jar лежат три пресета: `default`, `vanilla` и `high-contrast`. На титульном
 экране <kbd>K</kbd> открывает панель пака.
 
+<DemoTheme />
+
 ## Редактор
 
 Визуальный редактор `layout.json` прямо в игре. Холст монтирует те же компоненты `@fvui/elements`,
 что и готовый пак, так что на экране — именно пак. `@fvui/codegen` превращает документ в обычный
 пак и не трогает экраны, код которых правили руками.
+
+```mermaid
+flowchart LR
+  E["редактор раскладки, в игре"] --> L["layout.json"]
+  L --> C["@fvui/codegen"]
+  C --> K["обычный пак: экраны на Svelte, стили, манифест"]
+  K --> G["fvui/packs, F6"]
+  H["экран, исправленный руками"] -. "keep code: следующая сборка его не трогает" .-> K
+```
 
 Редактор **выключен, пока автор его не включит** файлом `<gamedir>/fvui/editor.json`:
 
@@ -59,17 +79,17 @@ fvui.on('mode', (e) => {
 
 Явное `{"enabled": false}` держит его выключенным при любых условиях — это замок для модпака.
 
-- [Layout document](/en/fv-menu/layout-document): формат, codegen, keep code
-- [Layout editor](/en/fv-menu/editor): хост и доверие, панели, горячие клавиши
-- [Code panel](/en/fv-menu/code-editor): необязательный редактор кода в игре с линтером Servo
-- [Editor plugins](/en/fv-menu/editor-plugins): `editor.plugin.js`, пять хуков и ни одного миксина
+- [Документ раскладки](/ru/fv-menu/layout-document): формат, codegen, keep code
+- [Редактор раскладки](/ru/fv-menu/editor): хост и доверие, панели, горячие клавиши
+- [Панель кода](/ru/fv-menu/code-editor): необязательный редактор кода в игре с линтером Servo
+- [Плагины редактора](/ru/fv-menu/editor-plugins): `editor.plugin.js`, пять хуков и ни одного миксина
 
 Все четыре главы пока на английском.
 
 ## Если вы с FancyMenu
 
 30 действий, 188 плейсхолдеров в виде типизированных привязок, условия показа одной грамматикой
-`visibleIf`, события как темы. [Карта соответствий](/en/fv-menu/fancymenu-map) (EN) говорит, где
+`visibleIf`, события как темы. [Если вы с FancyMenu](/ru/fv-menu/fancymenu-map) говорит, где
 здесь живёт каждая часть оригинала и что намеренно не повторено. Код, ассеты и тексты FancyMenu
 не копировались.
 
@@ -81,4 +101,4 @@ fvui.on('mode', (e) => {
 Необязательный вид списка серверов в виде пиксельных коллекционных карточек: редкость — по часам,
 наигранным на сервере, акцентный цвет — из его иконки. <kbd>C</kbd> на титульном экране
 переключает вид, обычный список всегда в одной клавише, и любая ошибка заканчивается им же.
-См. [Server cards](/en/fv-menu/server-cards) (EN).
+См. [Карточки серверов](/ru/fv-menu/server-cards).

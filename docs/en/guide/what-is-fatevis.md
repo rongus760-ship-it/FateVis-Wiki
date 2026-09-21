@@ -20,12 +20,24 @@ the first second of the launch.
 
 ## How the pieces fit
 
-```txt
-index.html            the pack's page: a title screen, a loading page, a screen skin or a HUD
-    |  window.fvui    call, on, state
-fvui (NeoForge mod)   game data as topics, game actions, a capability check on every call
-    |  JNI
-fvui-servo (Rust)     embedded Servo 0.5, the fvui:// protocol, the finished frame drawn in game
+```mermaid
+flowchart TD
+  P["UI pack: index.html, CSS, JS"] <-->|"window.fvui: call, on, state"| F["fvui, Java: bridge, capability check, topics and actions"]
+  F <-->|"game data and actions"| G["Minecraft 1.21.1"]
+  F <-->|JNI| S["fvui-servo, Rust: Servo 0.5, fvui://"]
+  S -->|"finished frame"| G
+  F -.->|"an ask capability"| Q["consent screen the game draws"]
+```
+
+```mermaid
+flowchart LR
+  UI["fv-ui: engine and API"]
+  M["fv-menu: title, skins, loading"]
+  H["fv-hud: HUD, chat, containers"]
+  E["fv-earlywindow: optional"]
+  M --> UI
+  H --> UI
+  E -.->|loading page from the first second| M
 ```
 
 Two things can be built on it:

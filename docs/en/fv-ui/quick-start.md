@@ -19,6 +19,15 @@ Nothing here is required to write a pack. The smallest complete one is `packs/ex
 manifest, one HTML file and a four line theme, no npm at all. Start there if your pack is one
 screen. Start with a template if it is a whole menu.
 
+```mermaid
+flowchart LR
+  A["copy a template"] --> B["npm run dev: browser + bridge mock"]
+  B --> C["npm run build"]
+  C --> D["F6 in game"]
+  D -->|edit| B
+  D --> E["npm run pack: zip into fvui/packs"]
+```
+
 ## 1. Create
 
 ```sh
@@ -29,8 +38,7 @@ cd ../my-pack && npm install
 Then change `id`, `name`, `authors` and `description` in `pack/fvui.pack.json`. The id has to match
 `[a-z0-9_-]{3,64}` and the directory or zip name the pack is installed under.
 
-The SDK packages are `file:` dependencies of the fv-ui tree while they are unpublished, see chapter
-13. `npm run build` in `web/` has to have run once.
+The SDK packages are `file:` dependencies of the fv-ui tree while they are unpublished, see [JS SDK](/en/fv-ui/sdk). `npm run build` in `web/` has to have run once.
 
 ## 2. Dev loop in a browser
 

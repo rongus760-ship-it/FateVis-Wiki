@@ -22,6 +22,15 @@ fvui.on('mode', (e) => {
 })
 ```
 
+```mermaid
+stateDiagram-v2
+  [*] --> loading: launch
+  loading --> title
+  title --> skin: Options, Key Binds ...
+  skin --> title: back
+  title --> loading: world load, server join
+```
+
 <figure>
   <img src="/shots/title.webp" alt="The shipped title screen">
   <figcaption><code>title</code>: the shipped pack. Continue, worlds and servers are topics, not scraped widgets.</figcaption>
@@ -46,11 +55,22 @@ Every shipped page reads the same CSS tokens: `--ink`, `--panel`, `--pop`, `--pa
 the shipped screens, and three presets ship in the jar: `default`, `vanilla` and `high-contrast`.
 On the title, <kbd>K</kbd> opens the pack panel.
 
+<DemoTheme />
+
 ## The layout editor
 
 A visual editor of `layout.json`, inside the game. The canvas mounts the same `@fvui/elements`
 components a generated pack mounts, so what is on screen is the pack. `@fvui/codegen` turns the
 document into a regular pack and leaves hand-edited surfaces alone.
+
+```mermaid
+flowchart LR
+  E["layout editor, in game"] --> L["layout.json"]
+  L --> C["@fvui/codegen"]
+  C --> K["a regular pack: Svelte surfaces, styles, manifest"]
+  K --> G["fvui/packs, F6"]
+  H["hand-edited surface"] -. "keep code: left alone by the next build" .-> K
+```
 
 The editor is **off unless an author turns it on** with `<gamedir>/fvui/editor.json`:
 

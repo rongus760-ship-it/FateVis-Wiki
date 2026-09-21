@@ -25,11 +25,11 @@ features:
 | понять, что это такое | [Что такое FateVis](/ru/guide/what-is-fatevis) |
 | поставить в модпак | [Установка](/ru/guide/install) |
 | написать первый UI-пак | [Быстрый старт](/ru/fv-ui/quick-start) |
-| узнать, что умеет Servo, до выбора фреймворка | [Servo support matrix](/en/fv-ui/servo) · EN |
-| отдать пакам данные своего мода | [Addon mods: FvUiApi](/en/fv-ui/addons-java) · EN |
+| узнать, что умеет Servo, до выбора фреймворка | [Матрица поддержки Servo](/ru/fv-ui/servo) |
+| отдать пакам данные своего мода | [Моды-аддоны](/ru/fv-ui/addons-java) |
 | сделать HUD-пак | [The HUD surface](/en/fv-hud/hud-surface) · EN |
-| переехать с FancyMenu | [Coming from FancyMenu](/en/fv-menu/fancymenu-map) · EN |
+| переехать с FancyMenu | [Если вы с FancyMenu](/ru/fv-menu/fancymenu-map) |
 
 ::: tip Про язык
-Обзорные страницы переведены. Справочные главы (мост, темы и действия, формат пака, HUD, редактор) пока только на английском — в меню они помечены «EN».
+Обзорные страницы и разделы FV-UI и FV-Menu переведены целиком. Осталась одна большая глава про экран HUD; пока перевода нет, пункт меню помечен «EN» и ведёт на английскую страницу.
 :::

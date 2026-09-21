@@ -25,7 +25,7 @@ fvui.state(key, cb)       // текущее значение темы и каж�
 ```
 
 Мост отвечает только страницам с `fvui://` или с origin из списка разрешённых.
-Полное описание: [Bridge](/en/fv-ui/bridge) (EN).
+Полное описание: [Мост](/ru/fv-ui/bridge).
 
 ## Темы и действия
 
@@ -39,7 +39,7 @@ fvui.state(key, cb)       // текущее значение темы и каж�
 await fvui.call('act', { id: 'open', args: { screen: 'options' } })
 ```
 
-Все идентификаторы с их данными: [Topics and actions](/en/fv-ui/topics-actions) (EN).
+Все идентификаторы с их данными: [Темы и действия](/ru/fv-ui/topics-actions).
 
 ## Права
 
@@ -47,13 +47,29 @@ await fvui.call('act', { id: 'open', args: { screen: 'options' } })
 сама игра, а не диалог на странице: тот же документ мог бы нарисовать поддельный. Пока игрок
 думает, вызов сразу отклоняется с кодом `capability`, а страница продолжает работать.
 
+```mermaid
+sequenceDiagram
+  participant P as Страница
+  participant F as fvui
+  participant U as Игрок
+  P->>F: act quit
+  F-->>P: отказ, код capability
+  F->>U: экран согласия: Allow, Deny, Always allow
+  Note over P: страница продолжает работать
+  U-->>F: Allow
+  P->>F: act quit, следующее нажатие
+  F-->>P: true
+```
+
 | уровень | смысл | примеры |
 |---|---|---|
 | <span class="tier always">always</span> | без записи в манифесте и без согласия | `state.sub`, `open`, `skin.act`, `store.get`, `store.set`, `res.need`, `res.lang`, `sound.play`, `music.set` |
 | <span class="tier ask">ask</span> | указано в манифесте, игрок отвечает один раз | `quit`, `world.play`, `server.join`, `link.open`, `pack.activate`, `options.write`, `game.command`, `files` |
 | <span class="tier never">never</span> | пак с таким правом не загрузится | `files:read`, `files:write`, `net:fetch`, `net:ws` |
 
-Подробности, семейства прав и файл выданных разрешений: [Capabilities](/en/fv-ui/capabilities) (EN).
+<DemoCaps />
+
+Подробности, семейства прав и файл выданных разрешений: [Права](/ru/fv-ui/capabilities).
 
 ## Паки
 
@@ -80,7 +96,7 @@ await fvui.call('act', { id: 'open', args: { screen: 'options' } })
 - Страница, упавшая при загрузке, отключает свой пак до изменения манифеста, а вид возвращается к
   штатному паку.
 
-Формат: [Pack format](/en/fv-ui/packs) (EN). Первый пак: [Быстрый старт](/ru/fv-ui/quick-start).
+Формат: [Формат пака](/ru/fv-ui/packs). Первый пак: [Быстрый старт](/ru/fv-ui/quick-start).
 
 ## Шаблоны
 
@@ -92,7 +108,7 @@ await fvui.call('act', { id: 'open', args: { screen: 'options' } })
 | `templates/react` | React 19, Vite | 232 kB |
 
 Замер 14.09.2026, без сжатия. Каждый шаблон — полный пак: титул, страница загрузки и скин экрана.
-Пакеты `@fvui/*` пока не в npm, см. [JS SDK](/en/fv-ui/sdk) (EN).
+Пакеты `@fvui/*` пока не в npm, см. [JS SDK](/ru/fv-ui/sdk).
 
 ## Servo — не Chromium
 
@@ -106,10 +122,10 @@ Servo 0.5 — современный движок с дырами в конкр�
 | custom elements, shadow DOM, ES2022, `fetch` по `fvui://` | `user-select`, `appearance` |
 | Resize-, Intersection- и MutationObserver, WebGL2 | grid и flex на настоящем `<button>` |
 
-Полный набор правил: [Servo support matrix](/en/fv-ui/servo) (EN).
+Полный набор правил: [Матрица поддержки Servo](/ru/fv-ui/servo).
 
 ## Для Java-модов и серверов
 
 Через `FvUiApi` другой мод регистрирует свои темы и действия, и любой пак может их читать и
-вызывать: [Addon mods](/en/fv-ui/addons-java) (EN). Серверы общаются с паками по каналу `fvui:data`
-и могут присылать паки с согласия игрока: [Servers](/en/fv-ui/server) (EN).
+вызывать: [Моды-аддоны](/ru/fv-ui/addons-java). Серверы общаются с паками по каналу `fvui:data`
+и могут присылать паки с согласия игрока: [Серверы](/ru/fv-ui/server).

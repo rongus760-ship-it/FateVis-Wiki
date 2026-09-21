@@ -47,11 +47,27 @@ The page is untrusted, Java is trusted. Consent is asked on a vanilla screen the
 in a page dialog, because the same document could paint a fake one. While the player decides, the
 call fails at once with code `capability` and the page keeps running.
 
+```mermaid
+sequenceDiagram
+  participant P as Page
+  participant F as fvui
+  participant U as Player
+  P->>F: act quit
+  F-->>P: rejected, code capability
+  F->>U: consent screen: Allow, Deny, Always allow
+  Note over P: the page keeps running
+  U-->>F: Allow
+  P->>F: act quit, the next press
+  F-->>P: true
+```
+
 | tier | meaning | examples |
 |---|---|---|
 | <span class="tier always">always</span> | no manifest entry, no consent | `state.sub`, `open`, `skin.act`, `store.get`, `store.set`, `res.need`, `res.lang`, `sound.play`, `music.set` |
 | <span class="tier ask">ask</span> | listed in the manifest, answered by the player once | `quit`, `world.play`, `server.join`, `link.open`, `pack.activate`, `options.write`, `game.command`, `files` |
 | <span class="tier never">never</span> | a manifest listing one does not load | `files:read`, `files:write`, `net:fetch`, `net:ws` |
+
+<DemoCaps />
 
 Details, families and the grants file: [Capabilities](/en/fv-ui/capabilities).
 

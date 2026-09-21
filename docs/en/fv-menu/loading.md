@@ -11,6 +11,17 @@ pack writes one `loading` entry and it serves the launch, the world load and eve
 | `level` | `LevelLoadingScreen` | the chunk listener, 0..1 | none |
 | `terrain` | `ReceivingLevelScreen` | indeterminate, with a deadline | none |
 
+```mermaid
+flowchart LR
+  B["boot: game start, resource reload"] --> T["title"]
+  T --> D["datapack"]
+  D --> L["level: chunk grid"]
+  T --> C["connect: Cancel is live"]
+  C --> R["terrain: 30 s deadline"]
+  L --> G["in game"]
+  R --> G
+```
+
 `boot` is drawn over the game's loading overlay, which keeps doing the real work (reload, progress
 meter, finish callback, removal about 2 s after the reload); the page plays its own outro inside
 that time. The other four are skins of live vanilla screens, so their logic never moves: the
@@ -148,6 +159,21 @@ The sequence the shipped page follows, and the one a pack should copy:
    `document.fonts.ready` (capped at 2 s) and two painted frames.
 4. call `loading.shown`. The page fades in over 250 ms and the copy is freed afterwards.
 
+```mermaid
+sequenceDiagram
+  participant E as fv-earlywindow (native copy)
+  participant H as loading host
+  participant P as loading page
+  E->>E: draws from the first second of the launch
+  H->>P: loading.info with early set
+  P->>H: loading.hold
+  H-->>P: {percent, progress, used}, the copy freezes
+  P->>P: renders those numbers, waits for fonts and two frames
+  P->>H: loading.shown
+  H->>P: fades in over 250 ms
+  H->>E: the copy is freed
+```
+
 Until `loading.shown` the page is drawn at alpha 0, so a page that never calls it is never seen.
 Without the copy the page is drawn at full alpha from its first frame and neither method exists.
 
@@ -168,3 +194,5 @@ same way: a last push with `done` true and `progress` 1 once their screen is gon
 `&t=<seconds>` scrubs to one moment instead of running it, which is what the headless harness
 shoots. The chunk grid and the entity puppet are native, so a demo draws their boxes and nothing
 inside them.
+
+<DemoLoading />

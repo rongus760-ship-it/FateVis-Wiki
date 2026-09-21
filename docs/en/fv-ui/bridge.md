@@ -29,6 +29,21 @@ JS to Java is a `fetch` of `fvui://bridge/call?m=<method>&a=<json args>` with `c
 answered asynchronously by the native protocol handler. Java to JS is `evaluate_javascript`
 calling `fvui._emit` (ordered events) or `fvui._state` (coalesced last value wins state).
 
+```mermaid
+sequenceDiagram
+  participant P as Page (JS)
+  participant N as fvui-servo (native)
+  participant J as fvui (Java)
+  P->>N: fetch fvui://bridge/call?m=act&a={...}
+  N->>J: handler on the render thread, inside Engine.pump
+  J-->>N: {ok, result} or {ok: false, error}
+  N-->>P: the Promise resolves or rejects
+  Note over J,P: the other direction
+  J->>N: evaluate_javascript
+  N->>P: fvui._emit(event), ordered
+  N->>P: fvui._state({...}), coalesced, last value wins
+```
+
 Handlers run on the render thread inside `Engine.pump`, in the middle of a frame. A call is never
 held open across a screen, so nothing times out; a rejected call is answered immediately and the
 page tries again later.

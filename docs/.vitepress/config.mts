@@ -1,4 +1,7 @@
-import { defineConfig, type DefaultTheme } from 'vitepress'
+import { existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { type DefaultTheme } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // GitHub Pages serves a project site from /<repo>/. The workflow passes DOCS_BASE for whatever
 // the repository is called; a user site (<name>.github.io) or a custom domain wants '/'.
@@ -39,9 +42,13 @@ const guide = (l: 'en' | 'ru'): DefaultTheme.SidebarItem[] => {
   ]
 }
 
-// The reference chapters exist in English only; the Russian sidebar links to them and says so.
-const ref = (l: 'en' | 'ru', text: string, path: string) =>
-  l === 'ru' ? { text: `${text} · EN`, link: `/en/${path}` } : { text, link: `/en/${path}` }
+// A reference chapter is linked in Russian as soon as docs/ru has it. Until then the Russian
+// sidebar points at the English page and says so. `ru` is the Russian title for that case.
+const hasRu = (path: string) => existsSync(fileURLToPath(new URL(`../ru/${path}.md`, import.meta.url)))
+const ref = (l: 'en' | 'ru', text: string, path: string, ru?: string) => {
+  if (l === 'en') return { text, link: `/en/${path}` }
+  return hasRu(path) ? { text: ru ?? text, link: `/ru/${path}` } : { text: `${text} · EN`, link: `/en/${path}` }
+}
 
 const fvui = (l: 'en' | 'ru'): DefaultTheme.SidebarItem[] => {
   const ru = l === 'ru'
@@ -56,27 +63,27 @@ const fvui = (l: 'en' | 'ru'): DefaultTheme.SidebarItem[] => {
     {
       text: ru ? 'Страница и игра' : 'Page and game',
       items: [
-        ref(l, 'Bridge: window.fvui', 'fv-ui/bridge'),
-        ref(l, 'Topics and actions', 'fv-ui/topics-actions'),
-        ref(l, 'Capabilities', 'fv-ui/capabilities'),
-        ref(l, 'JS SDK', 'fv-ui/sdk'),
+        ref(l, 'Bridge: window.fvui', 'fv-ui/bridge', 'Мост: window.fvui'),
+        ref(l, 'Topics and actions', 'fv-ui/topics-actions', 'Темы и действия'),
+        ref(l, 'Capabilities', 'fv-ui/capabilities', 'Права'),
+        ref(l, 'JS SDK', 'fv-ui/sdk', 'JS SDK'),
       ],
     },
     {
       text: ru ? 'Паки' : 'Packs',
       items: [
-        ref(l, 'Pack format', 'fv-ui/packs'),
-        ref(l, 'Servo support matrix', 'fv-ui/servo'),
-        ref(l, 'Dev workflow', 'fv-ui/dev-workflow'),
-        ref(l, 'Distribution', 'fv-ui/distribution'),
-        ref(l, 'Troubleshooting', 'fv-ui/troubleshooting'),
+        ref(l, 'Pack format', 'fv-ui/packs', 'Формат пака'),
+        ref(l, 'Servo support matrix', 'fv-ui/servo', 'Матрица поддержки Servo'),
+        ref(l, 'Dev workflow', 'fv-ui/dev-workflow', 'Цикл разработки'),
+        ref(l, 'Distribution', 'fv-ui/distribution', 'Распространение'),
+        ref(l, 'Troubleshooting', 'fv-ui/troubleshooting', 'Решение проблем'),
       ],
     },
     {
       text: ru ? 'Для Java и серверов' : 'Java and servers',
       items: [
-        ref(l, 'Addon mods: FvUiApi', 'fv-ui/addons-java'),
-        ref(l, 'Servers: fvui:data', 'fv-ui/server'),
+        ref(l, 'Addon mods: FvUiApi', 'fv-ui/addons-java', 'Моды-аддоны: FvUiApi'),
+        ref(l, 'Servers: fvui:data', 'fv-ui/server', 'Серверы: fvui:data'),
       ],
     },
   ]
@@ -89,23 +96,23 @@ const fvmenu = (l: 'en' | 'ru'): DefaultTheme.SidebarItem[] => {
     {
       text: ru ? 'Экраны' : 'Surfaces',
       items: [
-        ref(l, 'Title, skins, flow and mirror', 'fv-menu/surfaces'),
-        ref(l, 'Loading page', 'fv-menu/loading'),
-        ref(l, 'Server cards', 'fv-menu/server-cards'),
+        ref(l, 'Title, skins, flow and mirror', 'fv-menu/surfaces', 'Титул, скины, flow и mirror'),
+        ref(l, 'Loading page', 'fv-menu/loading', 'Страница загрузки'),
+        ref(l, 'Server cards', 'fv-menu/server-cards', 'Карточки серверов'),
       ],
     },
     {
       text: ru ? 'Редактор' : 'Editor',
       items: [
-        ref(l, 'Layout document', 'fv-menu/layout-document'),
-        ref(l, 'Layout editor', 'fv-menu/editor'),
-        ref(l, 'Code panel', 'fv-menu/code-editor'),
-        ref(l, 'Editor plugins', 'fv-menu/editor-plugins'),
+        ref(l, 'Layout document', 'fv-menu/layout-document', 'Документ раскладки'),
+        ref(l, 'Layout editor', 'fv-menu/editor', 'Редактор раскладки'),
+        ref(l, 'Code panel', 'fv-menu/code-editor', 'Панель кода'),
+        ref(l, 'Editor plugins', 'fv-menu/editor-plugins', 'Плагины редактора'),
       ],
     },
     {
       text: 'FancyMenu',
-      items: [ref(l, 'Coming from FancyMenu', 'fv-menu/fancymenu-map')],
+      items: [ref(l, 'Coming from FancyMenu', 'fv-menu/fancymenu-map', 'Если вы с FancyMenu')],
     },
   ]
 }
@@ -117,7 +124,7 @@ const fvhud = (l: 'en' | 'ru'): DefaultTheme.SidebarItem[] => {
       text: 'FV-Hud',
       items: [
         { text: ru ? 'Обзор' : 'Overview', link: `/${l}/fv-hud/` },
-        ref(l, 'The HUD surface', 'fv-hud/hud-surface'),
+        ref(l, 'The HUD surface', 'fv-hud/hud-surface', 'Экран HUD'),
       ],
     },
   ]
@@ -134,7 +141,7 @@ const editLink = repo
   ? { pattern: `https://github.com/${repo}/edit/main/docs/:path` }
   : undefined
 
-export default defineConfig({
+export default withMermaid({
   base,
   title: 'FateVis',
   description: 'Web UI for Minecraft: FV-UI, FV-Menu and FV-Hud',
@@ -183,6 +190,51 @@ export default defineConfig({
         },
       },
     },
+  },
+
+  // Diagrams are ```mermaid fences. Colours follow theme/custom.css.
+  mermaid: {
+    theme: 'base',
+    themeVariables: {
+      darkMode: true,
+      background: '#1a1b26',
+      fontFamily: "'0xProto', 'JetBrains Mono', ui-monospace, monospace",
+      fontSize: '14px',
+      primaryColor: '#1f2335',
+      primaryTextColor: '#d5daf5',
+      primaryBorderColor: '#bb9af7',
+      secondaryColor: '#11224a',
+      secondaryTextColor: '#9dc0ff',
+      secondaryBorderColor: '#3f6fe0',
+      tertiaryColor: '#16161e',
+      tertiaryTextColor: '#a9b1d6',
+      tertiaryBorderColor: '#3a3d55',
+      lineColor: '#7fa2dd',
+      textColor: '#d5daf5',
+      mainBkg: '#1f2335',
+      nodeBorder: '#bb9af7',
+      clusterBkg: 'rgba(17, 34, 74, 0.35)',
+      clusterBorder: '#3a3d55',
+      edgeLabelBackground: '#1a1b26',
+      actorBkg: '#11224a',
+      actorBorder: '#3f6fe0',
+      actorTextColor: '#9dc0ff',
+      actorLineColor: '#3a3d55',
+      signalColor: '#7fa2dd',
+      signalTextColor: '#d5daf5',
+      labelBoxBkgColor: '#11224a',
+      labelBoxBorderColor: '#3f6fe0',
+      labelTextColor: '#9dc0ff',
+      noteBkgColor: '#2a2440',
+      noteBorderColor: '#bb9af7',
+      noteTextColor: '#d5daf5',
+      activationBkgColor: '#3b3164',
+      transitionColor: '#7fa2dd',
+      stateLabelColor: '#d5daf5',
+      altBackground: '#16161e',
+    },
+    flowchart: { curve: 'basis', htmlLabels: true, padding: 14 },
+    sequence: { mirrorActors: false, messageAlign: 'left' },
   },
 
   themeConfig: {

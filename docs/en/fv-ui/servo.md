@@ -215,6 +215,8 @@ node tools/check-quirks.mjs src/Title.svelte      one file
 node tools/check-quirks.mjs                       every pack source in the tree
 ```
 
+<DemoLint />
+
 <!-- quirks:begin -->
 | rule | where | what | chapter |
 |---|---|---|---|

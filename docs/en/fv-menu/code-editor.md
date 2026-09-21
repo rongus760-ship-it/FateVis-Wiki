@@ -1,7 +1,5 @@
 # The in-game code editor
 
-docs/plans/m8-editor.md
-
 A code panel inside the layout editor, for an author who already builds UI on a web framework. It
 is **optional**: every menu, HUD and loading layout is fully makeable without it, nothing on the
 no-code path imports from it, and it ships hidden. Read [Layout editor](/en/fv-menu/editor) first: this is one panel of that

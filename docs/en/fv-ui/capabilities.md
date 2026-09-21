@@ -45,6 +45,21 @@ In order, for every `act` call:
    this call. `process.exec` asks for itself instead, because the screen has to name the command
    line the call carries.
 
+```mermaid
+flowchart TD
+  A["act {id, args}"] --> B{"tier never?"}
+  B -- yes --> R1["refuse"]
+  B -- no --> C{"tier always, or the caller is the shipped pack?"}
+  C -- yes --> OK["allow"]
+  C -- no --> D{"id declared in the manifest capabilities?"}
+  D -- no --> R2["refuse, no prompt, one warn line"]
+  D -- yes --> E{"grant on file?"}
+  E -- allow --> OK
+  E -- deny --> R3["refuse"]
+  E -- none --> Q["consent screen queued, this call refused: capability"]
+  Q -. the player answers, the next press goes through .-> A
+```
+
 Step 3 is why an ask capability has to be declared. A pack that forgets it sees the call fail with
 no prompt at all, and the log says so:
 
@@ -83,6 +98,8 @@ screen.
 
 The screen shows the pack name and id, a sentence describing the capability, and the raw id under
 it. A pack cannot restyle it: `ConsentScreen` is on the never list of the skin rules.
+
+<DemoCaps />
 
 ## Grants file
 

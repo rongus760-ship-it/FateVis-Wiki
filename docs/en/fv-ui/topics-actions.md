@@ -14,6 +14,21 @@ fvui.call('state.sub', { topics: ['title.state', 'gui.scale'] });
 fvui.state('title.state', (state) => console.log(state.player, state.splash));
 ```
 
+```mermaid
+flowchart LR
+  subgraph Java
+    T["tick topic: producer sampled once per client tick"]
+    U["push topic: written by its owner on change"]
+    D{"equals the last value sent to this view?"}
+  end
+  T --> D
+  U --> D
+  D -- yes --> X["nothing is sent"]
+  D -- no --> C["coalesced: one fvui._state per view per engine spin"]
+  C --> P["fvui.state(key, cb) on the page"]
+  P -. "state.sub on the first subscriber, state.unsub on the last" .-> T
+```
+
 Values are diffed with `equals` on the Java side, so an unchanged value costs nothing. Tick topics
 do not run during mod loading, because the game event bus is not started yet: anything the loading
 page needs is pushed, see [Loading page](/en/fv-menu/loading).
@@ -122,7 +137,7 @@ exists before any client tick.
 `options.accessibility.title`. Anything else comes from `res.lang`. `splash` may be null.
 
 `worlds`: one entry per save, `{id, name, lastPlayed, mode, hardcore, cheats, version, locked,
-playable, broken}` plus `icon` when the save has one, as `fvui://saves/&lt;url encoded id>/icon.png?t=&lt;last
+playable, broken}` plus `icon` when the save has one, as `fvui://saves/<url encoded id>/icon.png?t=<last
 played>`. A corrupted or symlinked save has `broken: true` and a null `mode` and `version`: the game
 carries no settings for one, so only `id`, `name`, `lastPlayed` and `icon` are real.
 

@@ -65,6 +65,20 @@ server answer is not:
 The answer arrives on the ordered event `server.reply` as `{seq, ok, result}`. On a refusal `result`
 is a `{code, message}` with `code` one of `limit`, `rate`, `unknown`, `denied`, `off`.
 
+```mermaid
+sequenceDiagram
+  participant P as Page
+  participant C as fvui client
+  participant S as fvui server
+  P->>C: act server.act {id, args}
+  Note over C: needs the server:data capability, json up to 8 KiB
+  C-->>P: {seq}
+  C->>S: C2SAction {seq, id, json}
+  Note over S: hasPermission(level), 20 actions a second
+  S-->>C: S2CReply {seq, ok, json}
+  C->>P: event server.reply {seq, ok, result}
+```
+
 ```js
 fvui.call('events.sub', { events: ['server.reply'] })
 fvui.on('server.reply', r => console.log(r.seq, r.ok, r.result))

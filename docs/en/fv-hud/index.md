@@ -17,6 +17,16 @@ FV-Menu in both directions, so either can be installed alone.
   draws the real item stacks inside them.
 - **It only exists in a world.** The view is created on world join and closed on leave.
 
+```mermaid
+flowchart LR
+  G["game state"] -->|"hud.player, hud.hotbar, hud.effects ..."| P["HUD page"]
+  P -->|"hud.rects: where the items go"| J["fvhud"]
+  P -->|"finished frame, never focused"| F["screen"]
+  J -->|"real item stacks inside those rects"| F
+  R["player's resource pack"] -->|"fvui://res/ sprites"| P
+  I["mouse, keys, hotbar wheel"] --> V["the game, always"]
+```
+
 ## A HUD pack
 
 The same manifest as any other pack, with `hud` in `entries`:
@@ -46,6 +56,8 @@ Every one of them is lazy: a page that draws no hearts pays nothing for `hud.pla
 | `hud.bossbars` | boss bars, matched to their entities |
 | `hud.scoreboard` | the sidebar |
 | `hud.damage`, `hud.status`, `hud.reactive` | the reactive HUD, below |
+
+<DemoHearts />
 
 Times are absolute gui tick deadlines, not countdowns, so a page animates between pushes on its own.
 

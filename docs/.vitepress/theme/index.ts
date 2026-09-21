@@ -14,6 +14,11 @@ import '@fontsource/jetbrains-mono/cyrillic-400.css'
 import '@fontsource/jetbrains-mono/cyrillic-700.css'
 
 import FetchBanner from './components/FetchBanner.vue'
+import DemoCaps from './components/DemoCaps.vue'
+import DemoHearts from './components/DemoHearts.vue'
+import DemoTheme from './components/DemoTheme.vue'
+import DemoLint from './components/DemoLint.vue'
+import DemoLoading from './components/DemoLoading.vue'
 import './custom.css'
 
 export default {
@@ -22,4 +27,8 @@ export default {
     // the fastfetch panel replaces the stock hero on pages with `layout: home`
     'home-hero-before': () => h(FetchBanner),
   }),
+  // small interactive examples, used from markdown as <DemoCaps /> and so on
+  enhanceApp({ app }) {
+    for (const [name, c] of Object.entries({ DemoCaps, DemoHearts, DemoTheme, DemoLint, DemoLoading })) app.component(name, c)
+  },
 } satisfies Theme
