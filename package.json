@@ -1,0 +1,17 @@
+{
+  "name": "fatevis-wiki",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "@fontsource/geologica": "^5.2.0",
+    "@fontsource/jetbrains-mono": "^5.2.0",
+    "vitepress": "^1.6.4"
+  }
+}

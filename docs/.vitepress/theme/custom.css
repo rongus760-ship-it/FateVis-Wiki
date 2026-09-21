@@ -1,0 +1,244 @@
+/* ------------------------------------------------------------------
+   FateVis wiki theme. Palette, panel shape, mono face and background
+   are taken from Fate's GitHub profile banner (assets/fate-banner.svg):
+   #1a1b26 over a blurred photo at 65 %, a 1.2 px #3a3d55 border with a
+   10 px radius, a #bb9af7 -> #b7bdf8 face with a #3b3164 extrusion, and
+   the navy #11224a / #9dc0ff of the profile badges.
+
+   To change the background, replace docs/public/bg.jpg. To change how
+   much of it shows, edit --fv-veil below.
+------------------------------------------------------------------- */
+
+@font-face {
+  font-family: '0xProto';
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/0xProto-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: '0xProto';
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/0xProto-Bold.woff2') format('woff2');
+}
+
+:root {
+  --fv-bg: #1a1b26;
+  --fv-bg-deep: #151720;
+  --fv-border: #3a3d55;
+  --fv-purple: #bb9af7;
+  --fv-lavender: #b7bdf8;
+  --fv-shadow: #3b3164;
+  --fv-blue: #9dc0ff;
+  --fv-blue-dim: #7fa2dd;
+  --fv-navy: #11224a;
+  --fv-text: #d5daf5;
+  --fv-text-2: #a9b1d6;
+  --fv-text-3: #7b83a8;
+  --fv-green: #9ece6a;
+  --fv-yellow: #e0af68;
+  --fv-red: #f7768e;
+  --fv-veil: 0.65;          /* the banner's own overlay opacity */
+  --fv-radius: 10px;
+
+  /* 0xProto has no Cyrillic, JetBrains Mono fills in per glyph */
+  --vp-font-family-mono: '0xProto', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  --vp-font-family-base: 'Geologica', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+:root, .dark {
+  --vp-c-bg: var(--fv-bg);
+  --vp-c-bg-alt: var(--fv-bg-deep);
+  --vp-c-bg-elv: #1f2130;
+  --vp-c-bg-soft: #202234;
+  --vp-c-text-1: var(--fv-text);
+  --vp-c-text-2: var(--fv-text-2);
+  --vp-c-text-3: var(--fv-text-3);
+  --vp-c-divider: var(--fv-border);
+  --vp-c-gutter: var(--fv-bg-deep);
+  --vp-c-border: var(--fv-border);
+
+  --vp-c-brand-1: var(--fv-purple);
+  --vp-c-brand-2: var(--fv-lavender);
+  --vp-c-brand-3: #7a5fc7;
+  --vp-c-brand-soft: rgba(187, 154, 247, 0.14);
+
+  --vp-c-default-soft: rgba(58, 61, 85, 0.45);
+  --vp-c-tip-1: var(--fv-blue);
+  --vp-c-tip-soft: rgba(17, 34, 74, 0.7);
+  --vp-c-warning-1: var(--fv-yellow);
+  --vp-c-warning-soft: rgba(224, 175, 104, 0.12);
+  --vp-c-danger-1: var(--fv-red);
+  --vp-c-danger-soft: rgba(247, 118, 142, 0.12);
+
+  --vp-nav-bg-color: rgba(26, 27, 38, 0.86);
+  --vp-sidebar-bg-color: rgba(21, 23, 32, 0.78);
+  --vp-local-nav-bg-color: rgba(26, 27, 38, 0.92);
+  --vp-code-block-bg: rgba(15, 16, 23, 0.85);
+  --vp-code-block-divider-color: var(--fv-border);
+  --vp-code-color: var(--fv-blue);
+  --vp-code-bg: var(--fv-navy);
+  --vp-button-brand-bg: var(--fv-purple);
+  --vp-button-brand-text: #16161e;
+  --vp-button-brand-hover-bg: var(--fv-lavender);
+  --vp-button-brand-hover-text: #16161e;
+  --vp-button-brand-active-bg: var(--fv-lavender);
+  --vp-button-brand-active-text: #16161e;
+}
+
+/* ---------------- the background: the banner's photo under the banner's veil ---------------- */
+html { background: var(--fv-bg-deep); }
+body { background: transparent; }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(26, 27, 38, var(--fv-veil)), rgba(26, 27, 38, var(--fv-veil))),
+    url('/bg.jpg') center / cover no-repeat,
+    var(--fv-bg-deep);
+}
+.Layout, .VPContent, .VPHome, .VPDoc { background: transparent; }
+.VPSidebar { border-right: 1px solid var(--fv-border); }
+.VPNavBar:not(.home), .VPNavBar.home.top { border-bottom: 1px solid var(--fv-border); }
+.VPNavBar .divider { display: none; }
+.VPNavBar.has-sidebar .content-body, .VPNavBar .content-body { background: transparent !important; }
+.VPNavBar { background: var(--vp-nav-bg-color) !important; }
+.VPSidebar .curtain { display: none; }
+.VPFooter { background: rgba(21, 23, 32, 0.78); border-top: 1px solid var(--fv-border); }
+
+/* ---------------- type: mono where the profile is mono ---------------- */
+.VPNavBarTitle .title,
+.VPNavBarMenuLink, .VPNavBarMenuGroup .text, .VPNavScreenMenuLink,
+.VPSidebarItem.level-0 > .item .text,
+.vp-doc h1, .vp-doc h2, .vp-doc h3, .vp-doc h4,
+.VPDocAsideOutline .outline-title,
+.VPFeature .title {
+  font-family: var(--vp-font-family-mono);
+  letter-spacing: -0.01em;
+}
+.VPNavBarTitle .title { font-weight: 700; color: var(--fv-lavender); }
+.VPNavBarTitle .logo { height: 26px; }
+.vp-doc h1 {
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--fv-purple), var(--fv-lavender));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  width: fit-content;
+  max-width: 100%;
+}
+.vp-doc h2 { border-top-color: var(--fv-border); color: var(--fv-lavender); font-weight: 700; }
+.vp-doc h3 { color: var(--fv-text); font-weight: 700; }
+.VPSidebarItem.level-0 > .item > .text, .VPSidebarItem.level-0 > .item > h2.text { color: var(--fv-purple) !important; font-size: 13px; }
+.vp-doc p, .vp-doc li { line-height: 1.7; }
+
+/* ---------------- the doc body is a terminal panel, like the banner ---------------- */
+.VPDoc .content-container {
+  background: rgba(26, 27, 38, 0.74);
+  border: 1.2px solid var(--fv-border);
+  border-radius: var(--fv-radius);
+  padding: 28px 22px 8px;
+}
+@media (min-width: 768px) { .VPDoc .content-container { padding: 40px 44px 12px; } }
+@media (max-width: 767px) { .VPDoc { padding-left: 12px !important; padding-right: 12px !important; } }
+
+/* inline code reads like the profile's badges */
+.vp-doc :not(pre) > code {
+  color: var(--fv-blue);
+  background: var(--fv-navy);
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 0.86em;
+}
+.vp-doc a > code { color: var(--fv-lavender); }
+.vp-doc div[class*='language-'] { border: 1px solid var(--fv-border); border-radius: var(--fv-radius); }
+@media (max-width: 639px) { .vp-doc div[class*='language-'] { border-radius: 0; border-left: 0; border-right: 0; } }
+
+.vp-doc table { display: block; overflow-x: auto; border-collapse: collapse; }
+.vp-doc tr { background: transparent; border-top-color: var(--fv-border); }
+.vp-doc tr:nth-child(2n) { background: rgba(21, 23, 32, 0.55); }
+.vp-doc th { background: rgba(17, 34, 74, 0.55); color: var(--fv-blue); font-family: var(--vp-font-family-mono); font-size: 13px; font-weight: 400; text-align: left; }
+.vp-doc th, .vp-doc td { border-color: var(--fv-border); }
+.vp-doc td { font-size: 14.5px; }
+
+.vp-doc .custom-block { border-radius: var(--fv-radius); border: 1px solid var(--fv-border); }
+.vp-doc .custom-block.tip { border-color: rgba(157, 192, 255, 0.35); }
+.vp-doc img { border: 1.2px solid var(--fv-border); border-radius: var(--fv-radius); }
+.vp-doc figure { margin: 24px 0; }
+.vp-doc figcaption { margin-top: 8px; font-size: 14px; color: var(--fv-text-2); }
+
+/* tier labels and status words used in the hand-written pages */
+.tier { font-family: var(--vp-font-family-mono); font-size: 13px; padding: 2px 8px; border-radius: 3px; background: var(--fv-navy); }
+.tier.always { color: var(--fv-green); }
+.tier.ask { color: var(--fv-yellow); }
+.tier.never { color: var(--fv-red); }
+
+/* ---------------- home: the fastfetch panel ---------------- */
+.fetch { padding: 32px 24px 0; }
+@media (min-width: 640px) { .fetch { padding: 56px 48px 0; } }
+@media (min-width: 960px) { .fetch { padding: 72px 64px 0; } }
+.fetch-panel, .fetch-actions { max-width: 1152px; margin-left: auto; margin-right: auto; }
+.fetch-panel {
+  display: grid;
+  gap: 28px;
+  padding: 28px 22px 24px;
+  background: rgba(26, 27, 38, 0.35);
+  border: 1.2px solid var(--fv-border);
+  border-radius: var(--fv-radius);
+  font-family: var(--vp-font-family-mono);
+}
+@media (min-width: 900px) {
+  .fetch-panel { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 48px; align-items: center; padding: 44px 44px 36px; }
+}
+.fetch-art svg { display: block; width: 100%; height: auto; }
+.fetch-prompt { margin: 22px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--fv-text-2); overflow-wrap: anywhere; }
+.fetch-user { color: var(--fv-purple); font-weight: 700; }
+.fetch-dim { color: var(--fv-text-3); }
+.fetch-cursor { display: inline-block; width: 0.6em; height: 1.05em; margin-left: 4px; vertical-align: text-bottom; background: var(--fv-text-3); animation: fetch-blink 1.1s steps(2, start) infinite; }
+@keyframes fetch-blink { to { visibility: hidden; } }
+.fetch-info { margin: 0; font-size: 15px; line-height: 1.65; color: var(--fv-text); }
+.fetch-title { font-weight: 700; }
+.fetch-rule { color: var(--fv-text-2); letter-spacing: 0.02em; }
+.fetch-row { display: flex; flex-wrap: wrap; gap: 0 0.6em; }
+.fetch-row dt { color: var(--fv-purple); font-weight: 700; }
+.fetch-row dd { margin: 0; }
+.fetch-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; margin-bottom: 28px; }
+.fetch-btn {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  font-family: var(--vp-font-family-mono); font-size: 14px; text-decoration: none;
+  color: var(--fv-blue); background: var(--fv-navy); border: 1px solid rgba(157, 192, 255, 0.25); border-radius: 6px;
+  transition: border-color 0.15s, color 0.15s;
+}
+.fetch-btn:hover { border-color: var(--fv-blue); color: #fff; }
+.fetch-btn.is-main { color: #16161e; background: linear-gradient(90deg, var(--fv-purple), var(--fv-lavender)); border-color: transparent; font-weight: 700; }
+.fetch-btn.is-main:hover { color: #16161e; filter: brightness(1.08); }
+.fetch-btn:focus-visible { outline: 2px solid var(--fv-lavender); outline-offset: 3px; }
+
+.VPHome { padding-bottom: 64px; }
+
+.VPFeature {
+  background: rgba(26, 27, 38, 0.6) !important;
+  border: 1.2px solid var(--fv-border) !important;
+  border-radius: var(--fv-radius) !important;
+}
+.VPFeature:hover { border-color: var(--fv-purple) !important; }
+.VPFeature .title { color: var(--fv-lavender); font-weight: 700; }
+.VPFeature .details { color: var(--fv-text-2); font-size: 14.5px; line-height: 1.6; }
+.VPFeature .link-text-value { font-family: var(--vp-font-family-mono); font-size: 13px; color: var(--fv-blue); }
+.VPHome .vp-doc { box-sizing: border-box; max-width: calc(1152px + 48px); margin: 0 auto; padding: 8px 24px 0; }
+@media (min-width: 640px) { .VPHome .vp-doc { max-width: calc(1152px + 96px); padding: 8px 48px 0; } }
+@media (min-width: 960px) { .VPHome .vp-doc { max-width: calc(1152px + 128px); padding: 8px 64px 0; } }
+
+/* search box and misc chrome follow the panel look */
+.DocSearch-Button, .VPNavBarSearchButton { border-radius: 6px !important; }
+.VPLocalSearchBox .shell { border: 1.2px solid var(--fv-border); border-radius: var(--fv-radius) !important; }
+.VPDocFooter .pager-link { border-radius: var(--fv-radius); border-color: var(--fv-border); background: rgba(21, 23, 32, 0.5); }
+.VPDocFooter .pager-link:hover { border-color: var(--fv-purple); }
+::selection { background: var(--fv-purple); color: #16161e; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fetch-cursor { animation: none; }
+}
+.vp-doc td:first-child code { white-space: nowrap; }
